@@ -13,7 +13,20 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./seeder.sql:/docker-entrypoint-initdb.d/02-seeder.sql:ro
 
-  lang:
+  vb:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    container_name: legacy_vb
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: legacy_payments
+      DB_USER: legacy_user
+      DB_PASSWORD: legacy_password
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
